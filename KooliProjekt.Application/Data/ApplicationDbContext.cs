@@ -1,9 +1,10 @@
-﻿using System;
+﻿using KooliProjekt.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace KooliProjekt.Application.Data
 {
@@ -13,7 +14,13 @@ namespace KooliProjekt.Application.Data
         {
         }
 
-        public DbSet<ToDoList> ToDoLists { get; set; }
-        public DbSet<ToDoItem> ToDoItems { get; set; }
+        public DbSet<Brewery> Breweries { get; set; }
+        public DbSet<Beer> Beers { get; set; }
+        public DbSet<Batch> Batches { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<LogEntry> LogEntries { get; set; }
+        public DbSet<TastingLog> TastingLogs { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }
