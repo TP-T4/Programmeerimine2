@@ -22,7 +22,7 @@ namespace KooliProjekt.Application.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KooliProjekt.Data.Batch", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Batch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Batches");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Beer", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Beer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,7 +73,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Beers");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Brewery", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Brewery", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,7 +92,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Breweries");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Ingredient", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -125,7 +125,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.LogEntry", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.LogEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,7 +154,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("LogEntries");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.TastingLog", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.TastingLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,7 +186,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("TastingLogs");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.User", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,9 +205,9 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Batch", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Batch", b =>
                 {
-                    b.HasOne("KooliProjekt.Data.Beer", "Beer")
+                    b.HasOne("KooliProjekt.Application.Data.Beer", "Beer")
                         .WithMany("Batches")
                         .HasForeignKey("BeerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -216,9 +216,9 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("Beer");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Beer", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Beer", b =>
                 {
-                    b.HasOne("KooliProjekt.Data.Brewery", "Brewery")
+                    b.HasOne("KooliProjekt.Application.Data.Brewery", "Brewery")
                         .WithMany("Beers")
                         .HasForeignKey("BreweryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,9 +227,9 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("Brewery");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Ingredient", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Ingredient", b =>
                 {
-                    b.HasOne("KooliProjekt.Data.Batch", "Batch")
+                    b.HasOne("KooliProjekt.Application.Data.Batch", "Batch")
                         .WithMany("Ingredients")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -238,15 +238,15 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("Batch");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.LogEntry", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.LogEntry", b =>
                 {
-                    b.HasOne("KooliProjekt.Data.Batch", "Batch")
+                    b.HasOne("KooliProjekt.Application.Data.Batch", "Batch")
                         .WithMany("LogEntries")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KooliProjekt.Data.User", "User")
+                    b.HasOne("KooliProjekt.Application.Data.User", "User")
                         .WithMany("LogEntries")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,15 +257,15 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.TastingLog", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.TastingLog", b =>
                 {
-                    b.HasOne("KooliProjekt.Data.Batch", "Batch")
+                    b.HasOne("KooliProjekt.Application.Data.Batch", "Batch")
                         .WithMany("TastingLogs")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KooliProjekt.Data.User", "User")
+                    b.HasOne("KooliProjekt.Application.Data.User", "User")
                         .WithMany("TastingLogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +276,7 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Batch", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Batch", b =>
                 {
                     b.Navigation("Ingredients");
 
@@ -285,17 +285,17 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("TastingLogs");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Beer", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Beer", b =>
                 {
                     b.Navigation("Batches");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.Brewery", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Brewery", b =>
                 {
                     b.Navigation("Beers");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Data.User", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.User", b =>
                 {
                     b.Navigation("LogEntries");
 

@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using KooliProjekt.Application.Features.Batches;
-using KooliProjekt.Application.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KooliProjekt.Application.Data;
 
 namespace KooliProjekt.WebAPI.Controllers
 {

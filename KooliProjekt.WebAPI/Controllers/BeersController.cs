@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using KooliProjekt.Application.Features.Beers;
 using KooliProjekt.Application.Data;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace KooliProjekt.WebAPI.Controllers
 {

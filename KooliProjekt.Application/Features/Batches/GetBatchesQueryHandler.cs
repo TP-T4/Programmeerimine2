@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Application.Data;
-using KooliProjekt.Application.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

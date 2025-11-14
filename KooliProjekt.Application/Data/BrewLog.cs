@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KooliProjekt.Data
+namespace KooliProjekt.Application.Data
 {
     public class Brewery
     {
