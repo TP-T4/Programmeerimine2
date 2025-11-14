@@ -1,4 +1,4 @@
-using FluentValidation;
+usingFluentValidation;
 using KooliProjekt.Application.Behaviors;
 using KooliProjekt.Application.Data;
 using MediatR;
