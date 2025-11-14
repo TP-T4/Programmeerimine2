@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace KooliProjekt.Application.Data
 {
     public class Brewery
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(150)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Mission { get; set; }
 
         public ICollection<Beer> Beers { get; set; }
@@ -15,7 +21,12 @@ namespace KooliProjekt.Application.Data
     public class Beer
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(120)]
         public string Name { get; set; }
+
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public int BreweryId { get; set; }
@@ -27,8 +38,15 @@ namespace KooliProjekt.Application.Data
     public class Batch
     {
         public int Id { get; set; }
+
+        [Required]
         public DateTime BrewDate { get; set; }
+
+        [Required]
+        [MaxLength(60)]
         public string BatchCode { get; set; }
+
+        [MaxLength(2000)]
         public string Description { get; set; }
 
         public int BeerId { get; set; }
@@ -42,10 +60,21 @@ namespace KooliProjekt.Application.Data
     public class Ingredient
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(150)]
         public string Name { get; set; }
+
+        [MaxLength(50)]
         public string Unit { get; set; }
+
+        [Range(0, double.MaxValue)]
         public float UnitPrice { get; set; }
+
+        [Range(0, double.MaxValue)]
         public float QuantityUsed { get; set; }
+
+        [Range(0, double.MaxValue)]
         public float TotalCost { get; set; }
 
         public int BatchId { get; set; }
@@ -55,7 +84,11 @@ namespace KooliProjekt.Application.Data
     public class LogEntry
     {
         public int Id { get; set; }
+
+        [Required]
         public DateTime Date { get; set; }
+
+        [MaxLength(2000)]
         public string Description { get; set; }
 
         public int BatchId { get; set; }
@@ -68,8 +101,14 @@ namespace KooliProjekt.Application.Data
     public class TastingLog
     {
         public int Id { get; set; }
+
+        [Required]
         public DateTime Date { get; set; }
+
+        [Range(0, 10)]
         public float Rating { get; set; }
+
+        [MaxLength(2000)]
         public string Explanation { get; set; }
 
         public int BatchId { get; set; }
@@ -82,7 +121,13 @@ namespace KooliProjekt.Application.Data
     public class User
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(80)]
         public string Username { get; set; }
+
+        [Required]
+        [MaxLength(256)]
         public string Password { get; set; }
 
         public ICollection<LogEntry> LogEntries { get; set; }
