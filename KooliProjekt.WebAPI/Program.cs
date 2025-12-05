@@ -24,6 +24,13 @@ namespace KooliProjekt.WebAPI
             });
 
             // If your controllers live only in this WebAPI project, this is enough:
+            builder.Services.AddScoped<IBreweryRepository, BreweryRepository>();
+            builder.Services.AddScoped<IBeerRepository, BeerRepository>();
+            builder.Services.AddScoped<IBatchRepository, BatchRepository>();
+            builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+            builder.Services.AddScoped<ILogEntryRepository, LogEntryRepository>();
+            builder.Services.AddScoped<ITastingLogRepository, TastingLogRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();

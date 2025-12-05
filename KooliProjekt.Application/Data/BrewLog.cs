@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KooliProjekt.Application.Data
 {
-    public class Brewery
+    public class Brewery : Entity
     {
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(150)]
@@ -18,10 +17,9 @@ namespace KooliProjekt.Application.Data
         public ICollection<Beer> Beers { get; set; }
     }
 
-    public class Beer
+    public class Beer : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         [MaxLength(120)]
         public string Name { get; set; }
@@ -35,10 +33,9 @@ namespace KooliProjekt.Application.Data
         public ICollection<Batch> Batches { get; set; }
     }
 
-    public class Batch
+    public class Batch : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         public DateTime BrewDate { get; set; }
 
@@ -57,10 +54,9 @@ namespace KooliProjekt.Application.Data
         public ICollection<TastingLog> TastingLogs { get; set; }
     }
 
-    public class Ingredient
+    public class Ingredient : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         [MaxLength(150)]
         public string Name { get; set; }
@@ -81,10 +77,9 @@ namespace KooliProjekt.Application.Data
         public Batch Batch { get; set; }
     }
 
-    public class LogEntry
+    public class LogEntry : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         public DateTime Date { get; set; }
 
@@ -98,10 +93,9 @@ namespace KooliProjekt.Application.Data
         public User User { get; set; }
     }
 
-    public class TastingLog
+    public class TastingLog : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         public DateTime Date { get; set; }
 
@@ -118,10 +112,9 @@ namespace KooliProjekt.Application.Data
         public User User { get; set; }
     }
 
-    public class User
+    public class User : Entity
     {
-        public int Id { get; set; }
-
+        
         [Required]
         [MaxLength(80)]
         public string Username { get; set; }

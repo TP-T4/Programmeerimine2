@@ -1,0 +1,46 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace KooliProjekt.Application.Data.Repositories
+{
+    public class BaseRepository<T> where T : Entity
+    {
+        protected readonly ApplicationDbContext _db;
+
+        public BaseRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
+        public async Task<T?> GetByIdAsync(int id)
+        {
+            return await _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _db.Set<T>().ToListAsync();
+        }
+
+        public async Task<T> SaveAsync(T entity)
+        {
+            if (entity.Id == 0)
+                _db.Set<T>().Add(entity);
+            else
+                _db.Set<T>().Update(entity);
+
+            await _db.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            if (entity == null)
+                return false;
+
+            _db.Set<T>().Remove(entity);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+    }
+}
