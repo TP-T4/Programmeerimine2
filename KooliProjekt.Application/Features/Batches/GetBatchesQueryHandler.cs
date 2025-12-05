@@ -1,24 +1,33 @@
+using KooliProjekt.Application.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using KooliProjekt.Application.Data;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Batches
 {
-    public class GetBatchesQueryHandler : IRequestHandler<GetBatchesQuery, List<Batch>>
+    public class GetBatchesQueryHandler
+        : IRequestHandler<GetBatchesQuery, PagedResult<Batch>>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
-        public GetBatchesQueryHandler(ApplicationDbContext context)
+        public GetBatchesQueryHandler(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
-        public async Task<List<Batch>> Handle(GetBatchesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<Batch>> Handle(GetBatchesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Batches.ToListAsync(cancellationToken);
+            var query = _db.Batches
+                .Include(x => x.Beer)
+                .Include(x => x.Ingredients)
+                .Include(x => x.LogEntries)
+                .Include(x => x.TastingLogs)
+                .OrderByDescending(x => x.BrewDate)
+                .AsQueryable();
+
+            return await query.GetPagedAsync(request.Page, request.PageSize);
         }
     }
 }

@@ -24,5 +24,32 @@ namespace KooliProjekt.WebAPI.Controllers
             var result = await _mediator.Send(new GetBreweriesQuery());
             return Ok(result);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Brewery>> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetBreweryQuery { Id = id });
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Brewery>> Save([FromBody] Brewery model)
+        {
+            var result = await _mediator.Send(new SaveBreweryCommand { Brewery = model });
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await _mediator.Send(new DeleteBreweryCommand { Id = id });
+            return result ? Ok() : NotFound();
+        }
+
+
     }
 }
+

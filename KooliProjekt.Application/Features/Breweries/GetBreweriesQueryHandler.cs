@@ -1,26 +1,30 @@
-﻿using MediatR;
+﻿using KooliProjekt.Application.Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using KooliProjekt.Application.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Breweries
 {
-    public class GetBreweriesQueryHandler : IRequestHandler<GetBreweriesQuery, List<Brewery>>
+    public class GetBreweriesQueryHandler
+        : IRequestHandler<GetBreweriesQuery, PagedResult<Brewery>>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
-        public GetBreweriesQueryHandler(ApplicationDbContext context)
+        public GetBreweriesQueryHandler(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
-        public async Task<List<Brewery>> Handle(GetBreweriesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<Brewery>> Handle(GetBreweriesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Breweries
-                .Include(b => b.Beers)
-                .ToListAsync(cancellationToken);
+            var query = _db.Breweries
+                .Include(x => x.Beers)
+                .OrderBy(x => x.Name)
+                .AsQueryable();
+
+            return await query.GetPagedAsync(request.Page, request.PageSize);
         }
     }
 }
