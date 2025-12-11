@@ -1,28 +1,23 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Users
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User?>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUserRepository _repo;
 
-        public GetUserQueryHandler(ApplicationDbContext db)
+        public GetUserQueryHandler(IUserRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
-        public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<User?> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            return await _db.Users
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            return await _repo.GetByIdAsync(request.Id);
         }
     }
 }

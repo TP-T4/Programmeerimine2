@@ -1,9 +1,6 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,25 +8,17 @@ namespace KooliProjekt.Application.Features.TastingLogs
 {
     public class SaveTastingLogCommandHandler : IRequestHandler<SaveTastingLogCommand, TastingLog>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITastingLogRepository _repo;
 
-        public SaveTastingLogCommandHandler(ApplicationDbContext db)
+        public SaveTastingLogCommandHandler(ITastingLogRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
         public async Task<TastingLog> Handle(SaveTastingLogCommand request, CancellationToken cancellationToken)
         {
-            var model = request.TastingLog;
-
-            if (model.Id == 0)
-                _db.TastingLogs.Add(model);
-            else
-                _db.TastingLogs.Update(model);
-
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return model;
+            return await _repo.SaveAsync(request.TastingLog);
         }
     }
 }
+

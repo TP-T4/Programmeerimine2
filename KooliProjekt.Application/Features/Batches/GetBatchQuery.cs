@@ -1,10 +1,10 @@
-using MediatR;
+﻿using MediatR;
 using KooliProjekt.Application.Data;
-using System.Collections.Generic;
 
 namespace KooliProjekt.Application.Features.Batches
 {
-    public class GetBatchesQuery : IRequest<List<Batch>>
+    public class GetBatchQuery : IRequest<Batch?>
     {
+        public int Id { get; set; }
     }
 }

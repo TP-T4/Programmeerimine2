@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.TastingLogs
 {
-    public class GetTastingLogsQueryHandler : IRequestHandler<GetTastingLogsQuery, PagedResult<KooliProjekt.Application.Data.TastingLog>>
+    public class GetTastingLogsQueryHandler : IRequestHandler<GetTastingLogsQuery, List<TastingLog>>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITastingLogRepository _repo;
 
-        public GetTastingLogsQueryHandler(ApplicationDbContext db) => _db = db;
-
-        public async Task<PagedResult<KooliProjekt.Application.Data.TastingLog>> Handle(GetTastingLogsQuery request, CancellationToken cancellationToken)
+        public GetTastingLogsQueryHandler(ITastingLogRepository repo)
         {
-            var query = _db.TastingLogs
-                .Include(t => t.Batch)
-                .Include(t => t.User)
-                .OrderByDescending(t => t.Date)
-                .AsQueryable();
+            _repo = repo;
+        }
 
-            return await query.GetPagedAsync(request.Page, request.PageSize);
+        public async Task<List<TastingLog>> Handle(GetTastingLogsQuery request, CancellationToken cancellationToken)
+        {
+            return await _repo.GetAllAsync();
         }
     }
 }

@@ -8,7 +8,7 @@ using KooliProjekt.Application.Data;
 
 namespace KooliProjekt.Application.Features.LogEntries
 {
-    public class GetLogEntryQuery : IRequest<LogEntry>
+    public class GetLogEntryQuery : IRequest<LogEntry?>
     {
         public int Id { get; set; }
     }

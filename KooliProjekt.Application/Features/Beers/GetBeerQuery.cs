@@ -8,7 +8,7 @@ using KooliProjekt.Application.Data;
 
 namespace KooliProjekt.Application.Features.Beers
 {
-    public class GetBeerQuery : IRequest<Beer>
+    public class GetBeerQuery : IRequest<Beer?>
     {
         public int Id { get; set; }
     }

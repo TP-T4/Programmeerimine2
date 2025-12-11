@@ -1,31 +1,25 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Breweries
 {
-    public class SaveBreweryCommandHandler : IRequestHandler<SaveBreweryCommand, Brewery>
+    public class SaveBreweryCommandHandler
+        : IRequestHandler<SaveBreweryCommand, Brewery>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IBreweryRepository _repo;
 
-        public SaveBreweryCommandHandler(ApplicationDbContext db)
+        public SaveBreweryCommandHandler(IBreweryRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
         public async Task<Brewery> Handle(SaveBreweryCommand request, CancellationToken cancellationToken)
         {
-            var model = request.Brewery;
-
-            if (model.Id == 0)
-                _db.Breweries.Add(model);
-            else
-                _db.Breweries.Update(model);
-
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return model;
+            return await _repo.SaveAsync(request.Brewery);
         }
     }
 }
+

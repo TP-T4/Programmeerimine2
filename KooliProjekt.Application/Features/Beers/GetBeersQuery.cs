@@ -1,11 +1,10 @@
 using MediatR;
 using KooliProjekt.Application.Data;
+using System.Collections.Generic;
 
 namespace KooliProjekt.Application.Features.Beers
 {
-    public class GetBeersQuery : IRequest<PagedResult<Beer>>
+    public class GetBeersQuery : IRequest<List<Beer>>
     {
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
     }
 }

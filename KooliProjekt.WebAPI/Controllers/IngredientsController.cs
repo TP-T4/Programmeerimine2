@@ -2,6 +2,7 @@
 using KooliProjekt.Application.Features.Ingredients;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.WebAPI.Controllers
@@ -17,40 +18,32 @@ namespace KooliProjekt.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        // GET list (paged)
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Ingredient>>> Get([FromQuery] GetIngredientsQuery query)
+        public async Task<ActionResult<List<Ingredient>>> Get()
         {
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(await _mediator.Send(new GetIngredientsQuery()));
         }
 
-        // GET by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Ingredient>> GetById(int id)
         {
             var result = await _mediator.Send(new GetIngredientQuery { Id = id });
-
-            if (result == null)
-                return NotFound();
-
+            if (result == null) return NotFound();
             return Ok(result);
         }
 
-        // SAVE (create/update)
         [HttpPost]
         public async Task<ActionResult<Ingredient>> Save([FromBody] Ingredient model)
         {
-            var result = await _mediator.Send(new SaveIngredientCommand { Ingredient = model });
-            return Ok(result);
+            return Ok(await _mediator.Send(new SaveIngredientCommand { Ingredient = model }));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteIngredientCommand { Id = id });
-            return result ? Ok() : NotFound();
+            var ok = await _mediator.Send(new DeleteIngredientCommand { Id = id });
+            if (!ok) return NotFound();
+            return Ok();
         }
-
     }
 }

@@ -2,6 +2,7 @@
 using KooliProjekt.Application.Features.TastingLogs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.WebAPI.Controllers
@@ -18,16 +19,17 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<TastingLog>>> Get([FromQuery] GetTastingLogsQuery query)
+        public async Task<ActionResult<List<TastingLog>>> Get()
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetTastingLogsQuery()));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TastingLog>> GetById(int id)
         {
             var result = await _mediator.Send(new GetTastingLogQuery { Id = id });
-            return result is null ? NotFound() : Ok(result);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
@@ -39,9 +41,9 @@ namespace KooliProjekt.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteTastingLogCommand { Id = id });
-            return result ? Ok() : NotFound();
+            var ok = await _mediator.Send(new DeleteTastingLogCommand { Id = id });
+            if (!ok) return NotFound();
+            return Ok();
         }
-
     }
 }

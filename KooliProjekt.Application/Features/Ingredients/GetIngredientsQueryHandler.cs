@@ -1,26 +1,24 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Ingredients
 {
-    public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, PagedResult<Ingredient>>
+    public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, List<Ingredient>>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IIngredientRepository _repo;
 
-        public GetIngredientsQueryHandler(ApplicationDbContext db)
+        public GetIngredientsQueryHandler(IIngredientRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
-        public async Task<PagedResult<Ingredient>> Handle(GetIngredientsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Ingredient>> Handle(GetIngredientsQuery request, CancellationToken cancellationToken)
         {
-            return await _db.Ingredients
-                .OrderBy(x => x.Id)
-                .GetPagedAsync(request.Page, request.PageSize);
+            return await _repo.GetAllAsync();
         }
     }
 }

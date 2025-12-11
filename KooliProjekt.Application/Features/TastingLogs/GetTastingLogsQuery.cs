@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 using KooliProjekt.Application.Data;
-using MediatR;
+using System.Collections.Generic;
 
 namespace KooliProjekt.Application.Features.TastingLogs
 {
-    public class GetTastingLogsQuery : IRequest<PagedResult<KooliProjekt.Application.Data.TastingLog>>
+    public class GetTastingLogsQuery : IRequest<List<TastingLog>>
     {
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
     }
 }

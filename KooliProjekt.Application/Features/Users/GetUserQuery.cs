@@ -8,7 +8,7 @@ using KooliProjekt.Application.Data;
 
 namespace KooliProjekt.Application.Features.Users
 {
-    public class GetUserQuery : IRequest<User>
+    public class GetUserQuery : IRequest<User?>
     {
         public int Id { get; set; }
     }

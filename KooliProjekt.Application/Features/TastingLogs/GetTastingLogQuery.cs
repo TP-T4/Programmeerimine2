@@ -8,7 +8,7 @@ using KooliProjekt.Application.Data;
 
 namespace KooliProjekt.Application.Features.TastingLogs
 {
-    public class GetTastingLogQuery : IRequest<TastingLog>
+    public class GetTastingLogQuery : IRequest<TastingLog?>
     {
         public int Id { get; set; }
     }

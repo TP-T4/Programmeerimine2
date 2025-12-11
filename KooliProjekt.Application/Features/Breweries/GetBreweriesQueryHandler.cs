@@ -1,13 +1,14 @@
-﻿using MediatR;
-using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Data;
 using KooliProjekt.Application.Data.Repositories;
+using MediatR;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Breweries
 {
     public class GetBreweriesQueryHandler
-        : IRequestHandler<GetBreweriesQuery, PagedResult<Brewery>>
+        : IRequestHandler<GetBreweriesQuery, List<Brewery>>
     {
         private readonly IBreweryRepository _repo;
 
@@ -16,10 +17,9 @@ namespace KooliProjekt.Application.Features.Breweries
             _repo = repo;
         }
 
-        public async Task<PagedResult<Brewery>> Handle(GetBreweriesQuery request, CancellationToken cancellationToken)
+        public async Task<List<Brewery>> Handle(GetBreweriesQuery request, CancellationToken cancellationToken)
         {
-            // Eeldus: IBreweryRepository sisaldab meetodit GetPagedAsync
-            return await _repo.GetPagedAsync(request.Page, request.PageSize);
+            return await _repo.GetAllAsync();
         }
     }
 }

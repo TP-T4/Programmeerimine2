@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Users
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedResult<KooliProjekt.Application.Data.User>>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<User>>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUserRepository _repo;
 
-        public GetUsersQueryHandler(ApplicationDbContext db) => _db = db;
-
-        public async Task<PagedResult<KooliProjekt.Application.Data.User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public GetUsersQueryHandler(IUserRepository repo)
         {
-            var query = _db.Users
-                .OrderBy(u => u.Username)
-                .AsQueryable();
+            _repo = repo;
+        }
 
-            return await query.GetPagedAsync(request.Page, request.PageSize);
+        public async Task<List<User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        {
+            return await _repo.GetAllAsync();
         }
     }
 }
-
-

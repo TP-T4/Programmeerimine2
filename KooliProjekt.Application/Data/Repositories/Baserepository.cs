@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Data.Repositories
 {

@@ -14,24 +14,19 @@ namespace KooliProjekt.Application.Data
         {
             db.Database.Migrate();
 
-            // ära tee duplikaate
+            
             if (db.Breweries.Any())
                 return;
 
-            // -----------------------
-            // USERS
-            // -----------------------
+           
             var users = Enumerable.Range(1, 10).Select(i => new User
             {
                 Username = $"user{i}",
-                Password = "test"  // ainult seed, mitte päris
+                Password = "test"  
             }).ToList();
             db.Users.AddRange(users);
             db.SaveChanges();
 
-            // -----------------------
-            // BREWERIES
-            // -----------------------
             var breweries = Enumerable.Range(1, 10).Select(i => new Brewery
             {
                 Name = $"Brewery {i}",
@@ -40,9 +35,7 @@ namespace KooliProjekt.Application.Data
             db.Breweries.AddRange(breweries);
             db.SaveChanges();
 
-            // -----------------------
-            // BEERS
-            // -----------------------
+          
             var beers = Enumerable.Range(1, 10).Select(i => new Beer
             {
                 Name = $"Beer {i}",
@@ -52,9 +45,6 @@ namespace KooliProjekt.Application.Data
             db.Beers.AddRange(beers);
             db.SaveChanges();
 
-            // -----------------------
-            // BATCHES
-            // -----------------------
             var batches = Enumerable.Range(1, 10).Select(i => new Batch
             {
                 BatchCode = $"BATCH-{i:000}",
@@ -65,9 +55,6 @@ namespace KooliProjekt.Application.Data
             db.Batches.AddRange(batches);
             db.SaveChanges();
 
-            // -----------------------
-            // INGREDIENTS
-            // -----------------------
             var ingredients = Enumerable.Range(1, 10).Select(i => new Ingredient
             {
                 Name = $"Ingredient {i}",
@@ -80,9 +67,6 @@ namespace KooliProjekt.Application.Data
             db.Ingredients.AddRange(ingredients);
             db.SaveChanges();
 
-            // -----------------------
-            // LOG ENTRIES
-            // -----------------------
             var logEntries = Enumerable.Range(1, 10).Select(i => new LogEntry
             {
                 Date = DateTime.UtcNow.AddDays(-i),
@@ -93,9 +77,6 @@ namespace KooliProjekt.Application.Data
             db.LogEntries.AddRange(logEntries);
             db.SaveChanges();
 
-            // -----------------------
-            // TASTING LOGS
-            // -----------------------
             var tastingLogs = Enumerable.Range(1, 10).Select(i => new TastingLog
             {
                 Date = DateTime.UtcNow.AddDays(-i),

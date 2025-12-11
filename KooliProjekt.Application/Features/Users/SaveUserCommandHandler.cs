@@ -1,9 +1,6 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,25 +8,17 @@ namespace KooliProjekt.Application.Features.Users
 {
     public class SaveUserCommandHandler : IRequestHandler<SaveUserCommand, User>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUserRepository _repo;
 
-        public SaveUserCommandHandler(ApplicationDbContext db)
+        public SaveUserCommandHandler(IUserRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
         public async Task<User> Handle(SaveUserCommand request, CancellationToken cancellationToken)
         {
-            var model = request.User;
-
-            if (model.Id == 0)
-                _db.Users.Add(model);
-            else
-                _db.Users.Update(model);
-
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return model;
+            return await _repo.SaveAsync(request.User);
         }
     }
 }
+

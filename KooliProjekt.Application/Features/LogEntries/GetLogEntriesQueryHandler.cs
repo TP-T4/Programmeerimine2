@@ -1,30 +1,24 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.LogEntries
 {
-    public class GetLogEntriesQueryHandler : IRequestHandler<GetLogEntriesQuery, PagedResult<KooliProjekt.Application.Data.LogEntry>>
+    public class GetLogEntriesQueryHandler : IRequestHandler<GetLogEntriesQuery, List<LogEntry>>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ILogEntryRepository _repo;
 
-        public GetLogEntriesQueryHandler(ApplicationDbContext db) => _db = db;
-
-        public async Task<PagedResult<KooliProjekt.Application.Data.LogEntry>> Handle(GetLogEntriesQuery request, CancellationToken cancellationToken)
+        public GetLogEntriesQueryHandler(ILogEntryRepository repo)
         {
-            var query = _db.LogEntries
-                .Include(l => l.Batch)
-                .Include(l => l.User)
-                .OrderByDescending(l => l.Date)
-                .AsQueryable();
+            _repo = repo;
+        }
 
-            return await query.GetPagedAsync(request.Page, request.PageSize);
+        public async Task<List<LogEntry>> Handle(GetLogEntriesQuery request, CancellationToken cancellationToken)
+        {
+            return await _repo.GetAllAsync();
         }
     }
 }

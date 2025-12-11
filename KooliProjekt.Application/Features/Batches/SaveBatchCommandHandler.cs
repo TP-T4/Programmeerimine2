@@ -1,9 +1,6 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,26 +8,18 @@ namespace KooliProjekt.Application.Features.Batches
 {
     public class SaveBatchCommandHandler : IRequestHandler<SaveBatchCommand, Batch>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IBatchRepository _repo;
 
-        public SaveBatchCommandHandler(ApplicationDbContext db)
+        public SaveBatchCommandHandler(IBatchRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
         public async Task<Batch> Handle(SaveBatchCommand request, CancellationToken cancellationToken)
         {
-            var model = request.Batch;
-
-            if (model.Id == 0)
-                _db.Batches.Add(model);
-            else
-                _db.Batches.Update(model);
-
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return model;
+            return await _repo.SaveAsync(request.Batch);
         }
     }
 }
+
 

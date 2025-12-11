@@ -1,28 +1,23 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.TastingLogs
 {
-    public class GetTastingLogQueryHandler : IRequestHandler<GetTastingLogQuery, TastingLog>
+    public class GetTastingLogQueryHandler : IRequestHandler<GetTastingLogQuery, TastingLog?>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITastingLogRepository _repo;
 
-        public GetTastingLogQueryHandler(ApplicationDbContext db)
+        public GetTastingLogQueryHandler(ITastingLogRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
-        public async Task<TastingLog> Handle(GetTastingLogQuery request, CancellationToken cancellationToken)
+        public async Task<TastingLog?> Handle(GetTastingLogQuery request, CancellationToken cancellationToken)
         {
-            return await _db.TastingLogs
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            return await _repo.GetByIdAsync(request.Id);
         }
     }
 }

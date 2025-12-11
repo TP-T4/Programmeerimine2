@@ -2,6 +2,7 @@ using KooliProjekt.Application.Data;
 using KooliProjekt.Application.Features.Beers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.WebAPI.Controllers
@@ -18,16 +19,17 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Beer>>> Get([FromQuery] GetBeersQuery query)
+        public async Task<ActionResult<List<Beer>>> Get()
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetBeersQuery()));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Beer>> GetById(int id)
         {
             var result = await _mediator.Send(new GetBeerQuery { Id = id });
-            return result is null ? NotFound() : Ok(result);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
@@ -39,9 +41,9 @@ namespace KooliProjekt.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteBeerCommand { Id = id });
-            return result ? Ok() : NotFound();
+            var ok = await _mediator.Send(new DeleteBeerCommand { Id = id });
+            if (!ok) return NotFound();
+            return Ok();
         }
-
     }
 }

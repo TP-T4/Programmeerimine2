@@ -1,10 +1,5 @@
-﻿using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,23 +7,16 @@ namespace KooliProjekt.Application.Features.TastingLogs
 {
     public class DeleteTastingLogCommandHandler : IRequestHandler<DeleteTastingLogCommand, bool>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITastingLogRepository _repo;
 
-        public DeleteTastingLogCommandHandler(ApplicationDbContext db)
+        public DeleteTastingLogCommandHandler(ITastingLogRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
         public async Task<bool> Handle(DeleteTastingLogCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _db.TastingLogs.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (entity == null)
-                return false;
-
-            _db.TastingLogs.Remove(entity);
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return true;
+            return await _repo.DeleteAsync(request.Id);
         }
     }
 }

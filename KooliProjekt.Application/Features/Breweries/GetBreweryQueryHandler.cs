@@ -1,28 +1,25 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Breweries
 {
-    public class GetBreweryQueryHandler : IRequestHandler<GetBreweryQuery, Brewery>
+    public class GetBreweryQueryHandler
+        : IRequestHandler<GetBreweryQuery, Brewery?>
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IBreweryRepository _repo;
 
-        public GetBreweryQueryHandler(ApplicationDbContext db)
+        public GetBreweryQueryHandler(IBreweryRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
 
-        public async Task<Brewery> Handle(GetBreweryQuery request, CancellationToken cancellationToken)
+        public async Task<Brewery?> Handle(GetBreweryQuery request, CancellationToken cancellationToken)
         {
-            return await _db.Breweries
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            return await _repo.GetByIdAsync(request.Id);
         }
     }
 }
+
